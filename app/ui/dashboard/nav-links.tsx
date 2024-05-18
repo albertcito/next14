@@ -4,25 +4,34 @@ import {
   UserGroupIcon,
   HomeIcon,
   DocumentDuplicateIcon,
+  AcademicCapIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import { User } from '@/app/lib/definitions';
 
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
-const links = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon },
-  {
-    name: 'Invoices',
-    href: '/dashboard/invoices',
-    icon: DocumentDuplicateIcon,
-  },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
-];
 
-export default function NavLinks() {
+export default function NavLinks({ user }: { user: User }) {
   const pathname = usePathname();
+
+  const links = [
+    { name: 'Home', href: '/dashboard', icon: HomeIcon },
+    {
+      name: 'Invoices',
+      href: '/dashboard/invoices',
+      icon: DocumentDuplicateIcon,
+    },
+    { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
+  ];
+  if (user.role === 'admin') {
+    links.push({
+      name: 'Students',
+      href: '/dashboard/students',
+      icon: AcademicCapIcon
+    });
+  }
+
   return (
     <>
       {links.map((link) => {
