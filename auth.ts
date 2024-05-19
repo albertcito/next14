@@ -16,6 +16,8 @@ async function getUser(email: string): Promise<User | undefined> {
   }
 }
 
+console.log(process.env.AUTH_SECRET);
+
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
@@ -46,4 +48,5 @@ export const { auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
+  secret: process.env.AUTH_SECRET,
 });
